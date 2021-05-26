@@ -16,9 +16,12 @@ public class Test11 {
         },"t1");
 
         t1.start();
+        log.debug("打断标记:{}", t1.isInterrupted());
         Thread.sleep(1000);
         log.debug("interrupt");
         t1.interrupt();
+        log.debug("打断标记:{}", t1.isInterrupted());
+
         log.debug("打断标记:{}", t1.isInterrupted());
     }
 }
