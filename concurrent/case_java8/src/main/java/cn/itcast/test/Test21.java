@@ -77,6 +77,7 @@ class MessageQueue {
             list.addLast(message);
             log.debug("已生产消息 {}", message);
             list.notifyAll();
+
         }
     }
 }

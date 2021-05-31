@@ -54,6 +54,8 @@ class Account {
 
     // 转账
     public void transfer(Account target, int amount) {
+        Object o = new Object(); // 思考为什么不行,每个线程进来的锁的对象不是同一个
+//        synchronized(o) {
         synchronized(Account.class) {
             if (this.money >= amount) {
                 this.setMoney(this.getMoney() - amount);
