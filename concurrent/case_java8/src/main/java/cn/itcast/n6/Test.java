@@ -1,22 +1,30 @@
 package cn.itcast.n6;
 
-public class Test {
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+public class  Test{
+    static class LRULinkedHashMap<K,V> extends LinkedHashMap<K,V> {        //定义缓存的容量
+    private int capacity;        //带参数的构造器
+    LRULinkedHashMap(int capacity){            //如果accessOrder为true的话，则会把访问过的元素放在链表后面，放置顺序是访问的顺序
+        //如果accessOrder为flase的话，则按插入顺序来遍历
+        super(16,0.75f,true);            //传入指定的缓存最大容量
+        this.capacity=capacity;
+    }        //实现LRU的关键方法，如果map里面的元素个数大于了缓存最大容量，则删除链表的顶端元素
+    @Override
+    public boolean removeEldestEntry(Map.Entry<K, V> eldest){            return size()>capacity;
+    }
+}    //test
     public static void main(String[] args) {
-        int[] prices = new int[]{3,3,5,0,0,3,1,4};
-        System.out.println(maxProfit(prices));
+        LRULinkedHashMap<String, Integer> testCache = new LRULinkedHashMap<>(3);
+        testCache.put("A", 1);
+        testCache.put("B", 2);
+        testCache.put("C", 3);
+        System.out.println(testCache.get("B"));
+        System.out.println(testCache.get("A"));
+        testCache.put("D", 4);
+        System.out.println(testCache.get("D"));
+        System.out.println(testCache.get("C"));
     }
-
-    public static int maxProfit(int[] prices) {
-        int n = prices.length;
-        int buy1 = -prices[0], sell1 = 0;
-        int buy2 = -prices[0], sell2 = 0;
-        for (int i = 1; i < n; ++i) {
-            buy1 = Math.max(buy1, -prices[i]);
-            sell1 = Math.max(sell1, buy1 + prices[i]);
-            buy2 = Math.max(buy2, sell1 - prices[i]);
-            sell2 = Math.max(sell2, buy2 + prices[i]);
-        }
-        return sell2;
-    }
-
 }
+
